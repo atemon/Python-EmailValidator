@@ -36,19 +36,32 @@ class EmailValidator(object):
                              stderr=subprocess.PIPE)
         out, err = p.communicate()
 
-        return True if out else False
+        try:
+            assert out
+        except:
+            raise Exception("nslookup not installed/path not set!" + err)
+
+        return True
 
     def valid_mx(self, domain):
-        if self.nslookup_installed():
-            p = subprocess.Popen(['nslookup', '-query=mx', domain], stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-            out, err = p.communicate()
-            if re.search('mail exchanger', out):
-                return True
-            return False
-        return False
+        try:
+            self.nslookup_installed()
+        except:
+            raise
+
+        p = subprocess.Popen(['nslookup', '-query=mx', domain], stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        out, err = p.communicate()
+
+        try:
+            return bool(re.search('mail exchanger', out))
+        except:
+            raise Exception("Exception in DNS lookup!" + err)
+
+        
 
     def is_valid(self, email=None):
+
         if not email:
             return False
 
