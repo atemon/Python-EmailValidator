@@ -1,4 +1,4 @@
-from EmailValidator import EmailValidator
+from atemon.EmailValidator import EmailValidator
 
 v = EmailValidator()
 assert v

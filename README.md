@@ -19,12 +19,17 @@ To install nslookup, run the command
 # sudo apt-get install dnsutils
 
 ```
+###Install this from PIP
+```sh
 
+# pip install Atemon-EmailValidator
+
+```
 ###Usage
 
 
 ```python
-from EmailValidator import EmailValidator
+from atemon.EmailValidator import EmailValidator
 v = EmailValidator()
 v.is_valid('something@gmail.com')
 
