@@ -1,37 +1,39 @@
+"""
+Copyright (c) 2014 Agile Technology Engineers Monastery - ATEMON.
 
-# Copyright (c) 2014 Agile Technology Engineers Monastery - ATEMON
-#
-# Git Hub: https://github.com/atemon
-# Twitter: https://twitter.com/atemonastery
-#
-# This file is part of EmailValidator library and distributed under the MIT license (MIT).
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-#
+Git Hub: https://github.com/atemon
+Twitter: https://twitter.com/atemonastery
 
+This file is part of EmailValidator library and distributed under the MIT license (MIT).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+"""
 import subprocess
 import re
 
 
 class EmailValidator(object):
+    """Check if given email is valid."""
 
     def nslookup_installed(self):
+        """Check if nslookupo is installed."""
         p = subprocess.Popen(['which', 'nslookup'], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         out, err = p.communicate()
@@ -44,10 +46,11 @@ class EmailValidator(object):
         return True
 
     def valid_mx(self, domain):
+        """Check if a valid mx is registered for email."""
         try:
             self.nslookup_installed()
         except:
-            raise
+            return True  # Valid email as we cant check with nslookup
 
         p = subprocess.Popen(['nslookup', '-query=mx', domain], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
@@ -56,12 +59,11 @@ class EmailValidator(object):
         try:
             return bool(re.search('mail exchanger', out))
         except:
-            raise Exception("Exception in DNS lookup!" + err)
-
-        
+            # raise Exception("Exception in DNS lookup!" + err)
+            return False
 
     def is_valid(self, email=None):
-
+        """Check validity of email."""
         if not email:
             return False
 
