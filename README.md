@@ -9,23 +9,23 @@ You need the tool ```nslookup``` installed on the machine running this tool.
 
 To install nslookup, run the command
 
-####CentOS/RHEL
+#### CentOS/RHEL
 ```sh
 # yum install bind-utils
 ```
-####Ubuntu/Debian
+#### Ubuntu/Debian
 ```sh
 # sudo apt-get update
 # sudo apt-get install dnsutils
 
 ```
-###Install this from PIP
+### Install this from PIP
 ```sh
 
 # pip install Atemon-EmailValidator
 
 ```
-###Usage
+### Usage
 
 
 ```python
